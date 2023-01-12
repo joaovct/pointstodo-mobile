@@ -4,7 +4,7 @@ import { typography } from "../../styles/typography"
 
 export const Task = () => {
     return (
-        <View style={styles.task}>
+        <View style={styles.container}>
             <View style={styles.checkboxTitle}>
                 <View style={styles.checkbox} />
                 <Text style={{ ...typography.text, ...styles.title }}>Clean the backyard</Text>
@@ -28,7 +28,7 @@ export const Task = () => {
 }
 
 const styles = StyleSheet.create({
-    task: {
+    container: {
         backgroundColor: "#fff",
         borderRadius: 12,
         marginTop: 8,

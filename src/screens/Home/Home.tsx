@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, Image } from "react-native"
+import { StyleSheet, Text, View, Image, ImageBackground } from "react-native"
 import { Layout } from "../components/Layout"
+import { colors } from "../styles/colors"
 import { typography } from "../styles/typography"
 import { Task } from "./Task"
 
@@ -12,6 +13,17 @@ export const Home = () => {
                 <Task />
                 <Task />
                 <Task />
+                <Task />
+                <Task />
+                <Task />
+                <Task />
+            </View>
+            <View style={styles.addTaskContainer}>
+                <View style={styles.addTask}>
+                    <ImageBackground blurRadius={400}>
+                        <Text style={{ ...typography.small, ...styles.addTaskPlaceholder }}>Write a new task...</Text>
+                    </ImageBackground>
+                </View>
             </View>
         </Layout>
     )
@@ -28,4 +40,34 @@ const styles = StyleSheet.create({
         // gap between children
         top: -8,
     },
+    addTaskContainer: {
+        alignItems: "center",
+        bottom: 32,
+        justifyContent: "center",
+        left: 16,
+        position: "absolute",
+        width: "100%",
+    },
+    addTask: {
+        alignItems: "center",
+        backgroundColor: "rgba(255, 255, 255, .85)",
+        borderColor: colors.defaultSystemGray04Light,
+        borderWidth: 1,
+        borderRadius: 100,
+        elevation: 2,
+        justifyContent: "center",
+        paddingTop: 8,
+        paddingRight: 24,
+        paddingBottom: 8,
+        paddingLeft: 24,
+        width: "auto",
+        shadowColor: "#787880",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: .16,
+        shadowRadius: 8,
+        //TODO: Background Blur
+    },
+    addTaskPlaceholder: {
+        color: colors.acessibleSystemGrayLight,
+    }
 })
