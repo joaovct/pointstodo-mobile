@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ImageBackground } from "react-native"
+import { StyleSheet, Text, View, ImageBackground, ScrollView } from "react-native"
 import { Layout } from "../components/Layout"
 import { colors } from "../styles/colors"
 import { typography } from "../styles/typography"
@@ -6,18 +6,23 @@ import { Task } from "./Task"
 
 export const Home = () => {
     return (
-        <Layout>
-            <Text style={typography.heading}>35 points</Text>
-            <Text style={{ ...typography.medium, ...styles.textMedium }}>for today</Text>
-            <View style={styles.listTask}>
-                <Task />
-                <Task />
-                <Task />
-                <Task />
-                <Task />
-                <Task />
-                <Task />
-            </View>
+        <>
+            <Layout style={{ paddingBottom: 76 }}>
+                <Text style={typography.heading}>35 points</Text>
+                <Text style={{ ...typography.medium, ...styles.textMedium }}>for today</Text>
+                <View style={styles.listTask}>
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                </View>
+            </Layout>
             <View style={styles.addTaskContainer}>
                 <View style={styles.addTask}>
                     <ImageBackground blurRadius={400}>
@@ -25,7 +30,7 @@ export const Home = () => {
                     </ImageBackground>
                 </View>
             </View>
-        </Layout>
+        </>
     )
 }
 
@@ -44,7 +49,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         bottom: 32,
         justifyContent: "center",
-        left: 16,
         position: "absolute",
         width: "100%",
     },
