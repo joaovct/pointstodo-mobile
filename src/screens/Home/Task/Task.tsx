@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from "react-native"
-import { colors } from "../../styles/colors"
-import { typography } from "../../styles/typography"
+import { colors } from "../../../styles/colors"
+import { typography } from "../../../styles/typography"
 
 export const Task = () => {
     return (

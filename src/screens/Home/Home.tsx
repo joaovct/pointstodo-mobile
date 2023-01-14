@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ImageBackground, ScrollView } from "react-native"
-import { Layout } from "../components/Layout"
-import { colors } from "../styles/colors"
-import { typography } from "../styles/typography"
+import { Layout } from "../../components/Layout"
+import { colors } from "../../styles/colors"
+import { typography } from "../../styles/typography"
 import { Task } from "./Task"
 
 export const Home = () => {
