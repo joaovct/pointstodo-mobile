@@ -1,12 +1,11 @@
 import { StyleSheet, SafeAreaView, ScrollView, View, ViewProps , StyleProp } from 'react-native'
-import { colors } from '../../styles/colors'
+import { colors } from '../../../styles/colors'
 
 interface Props extends ViewProps {
     children: React.ReactNode
 }
 
-export const Layout = ({ children, ...props }: Props) => {
-    console.log(props.style?.valueOf)
+export const ScreenBase = ({ children, ...props }: Props) => {
     return (
         <SafeAreaView>
             <ScrollView>

@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, ImageBackground, ScrollView } from "react-native"
-import { Layout } from "../../components/Layout"
+import { StyleSheet, Text, View, ImageBackground } from "react-native"
+import { ScreenBase } from "../../features/UI/ScreenBase"
 import { colors } from "../../styles/colors"
 import { typography } from "../../styles/typography"
 import { Task } from "./Task"
@@ -7,7 +7,7 @@ import { Task } from "./Task"
 export const Home = () => {
     return (
         <>
-            <Layout style={{ paddingBottom: 76 }}>
+            <ScreenBase style={{ paddingBottom: 76 }}>
                 <Text style={typography.heading}>35 points</Text>
                 <Text style={{ ...typography.medium, ...styles.textMedium }}>for today</Text>
                 <View style={styles.listTask}>
@@ -22,7 +22,7 @@ export const Home = () => {
                     <Task />
                     <Task />
                 </View>
-            </Layout>
+            </ScreenBase>
             <View style={styles.addTaskContainer}>
                 <View style={styles.addTask}>
                     <ImageBackground blurRadius={400}>
