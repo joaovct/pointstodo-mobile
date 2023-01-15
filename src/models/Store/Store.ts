@@ -1,14 +1,14 @@
 import { types, Instance } from "mobx-state-tree";
 import { Categories } from "./Categories"
-import { Todos } from "./Todos"
+import { Tasks } from "./Tasks"
 
 const Store = types.model({
-    todos: Todos,
+    tasks: Tasks,
     categories: Categories
 })
 
 export const initialState = Store.create({
-    todos: {},
+    tasks: {},
     categories: {}
 })
 
