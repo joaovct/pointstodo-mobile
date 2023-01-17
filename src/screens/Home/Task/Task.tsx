@@ -1,31 +1,42 @@
 import { StyleSheet, Text, View, Image } from "react-native"
+import { ITask } from "../../../models/Store/Tasks/Task"
 import { colors } from "../../../styles/colors"
 import { typography } from "../../../styles/typography"
 
-export const Task = () => {
+type Props = {
+    task: ITask
+}
+
+export const Task = ({ task }: Props) => {
     return (
         <View style={styles.container}>
             <View style={styles.checkboxTitle}>
+                {/* create Checkbox */}
                 <View style={styles.checkbox} />
-                <Text style={{ ...typography.text, ...styles.title }}>Clean the backyard</Text>
+                <Text style={{ ...typography.text, ...styles.title }}>{task.title}</Text>
             </View>
             <View style={styles.description}>
                 <View style={styles.badget}>
-                    <Text style={{ ...typography.small, ...styles.badgetText }}>8 points</Text>
+                    {/* create DifficultyBadget */}
+                    <Text style={{ ...typography.small, ...styles.badgetText }}>{formatDifficulty(task.difficulty.quantityPoints)}</Text>
                 </View>
                 <View style={styles.list}>
                     <Image
                         style={styles.listIcon}
                         source={{
-                            uri: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/house-with-garden_1f3e1.png"
+                            uri: task.category.icon
                         }}
                     />
-                    <Text style={{ ...typography.small, ...styles.listTitle }}>House</Text>
+                    <Text style={{ ...typography.small, ...styles.listTitle }}>{task.category.name}</Text>
                 </View>
             </View>
         </View>
     )
 }
+
+function formatDifficulty(quantityPoints: number): string {
+    return quantityPoints > 1 ? `${quantityPoints} points` : `${quantityPoints} point`
+} 
 
 const styles = StyleSheet.create({
     container: {

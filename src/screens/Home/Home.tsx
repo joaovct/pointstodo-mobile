@@ -1,3 +1,4 @@
+import { cast } from "mobx-state-tree"
 import { StyleSheet, Text, View, ImageBackground } from "react-native"
 import { ScreenBase } from "../../features/UI/ScreenBase"
 import { colors } from "../../styles/colors"
@@ -11,16 +12,21 @@ export const Home = () => {
                 <Text style={typography.heading}>35 points</Text>
                 <Text style={{ ...typography.medium, ...styles.textMedium }}>for today</Text>
                 <View style={styles.listTask}>
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
-                    <Task />
+                    <Task task={{
+                        id: "1",
+                        done: false,
+                        title: "Clean the backyard",
+                        description: "",
+                        difficulty: {
+                            quantityPoints: 8,
+                        },
+                        category: {
+                            id: "c-1",
+                            icon: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/house-with-garden_1f3e1.png",
+                            name: "Family"
+                        },
+                        subtasks: { all: cast([]) }
+                    }}/>
                 </View>
             </ScreenBase>
             <View style={styles.addTaskContainer}>

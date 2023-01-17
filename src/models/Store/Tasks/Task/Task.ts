@@ -1,4 +1,5 @@
-import { types } from "mobx-state-tree"
+import { Instance, types } from "mobx-state-tree"
+import { Category } from "../../Categories/Category"
 import { Difficulty } from "../../Difficulties/Difficulty"
 import { Subtasks } from "./Subtasks"
 
@@ -8,7 +9,8 @@ export const Task = types.model({
     title: types.string,
     description: types.string,
     subtasks: Subtasks,
-    difficulty: types.reference(Difficulty)
-    //difficulty
-    //category
+    difficulty: types.reference(Difficulty),
+    category: types.reference(Category)
 })
+
+export interface ITask extends Instance<typeof Task>
