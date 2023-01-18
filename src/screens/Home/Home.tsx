@@ -14,7 +14,7 @@ export const Home = () => {
                 <View style={styles.listTask}>
                     <Task task={{
                         id: "1",
-                        done: false,
+                        checked: false,
                         title: "Clean the backyard",
                         description: "",
                         difficulty: {

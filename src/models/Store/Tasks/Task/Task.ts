@@ -5,7 +5,7 @@ import { Subtasks } from "./Subtasks"
 
 export const Task = types.model({
     id: types.string,
-    done: types.boolean,
+    checked: types.boolean,
     title: types.string,
     description: types.string,
     subtasks: Subtasks,
@@ -13,4 +13,4 @@ export const Task = types.model({
     category: types.reference(Category)
 })
 
-export interface ITask extends Instance<typeof Task>
+export interface ITask extends Instance<typeof Task>{}

@@ -1,4 +1,6 @@
+import { useState } from "react"
 import { StyleSheet, Text, View, Image } from "react-native"
+import { Checkbox } from "../../../features/UI"
 import { ITask } from "../../../models/Store/Tasks/Task"
 import { colors } from "../../../styles/colors"
 import { typography } from "../../../styles/typography"
@@ -8,11 +10,16 @@ type Props = {
 }
 
 export const Task = ({ task }: Props) => {
+    const [isChecked, setIsChecked] = useState(false)
+
+    const onPress = () => {
+        setIsChecked(checked => !checked)
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.checkboxTitle}>
-                {/* create Checkbox */}
-                <View style={styles.checkbox} />
+                <Checkbox checked={isChecked} onPress={onPress}/>
                 <Text style={{ ...typography.text, ...styles.title }}>{task.title}</Text>
             </View>
             <View style={styles.description}>

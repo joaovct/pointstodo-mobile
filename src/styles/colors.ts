@@ -1,5 +1,6 @@
 
 export const colors = {
+    accessibleSystemBlueLight: "#409CFF",
     acessibleSystemGrayLight: "#6C6C70",
     systemBackgroundLight: "#F2F2F7",
     defaultSystemGray06Dark: "#1C1C1E",
