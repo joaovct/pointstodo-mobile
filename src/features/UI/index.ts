@@ -1,3 +1,3 @@
-export * from './ScreenBase'
-export * from './Checkbox'
-export * from './Chip'
+export { ScreenBase } from './ScreenBase'
+export { Checkbox } from './Checkbox'
+export { Chip } from './Chip'

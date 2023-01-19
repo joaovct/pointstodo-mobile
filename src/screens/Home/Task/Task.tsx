@@ -4,6 +4,7 @@ import { Checkbox, Chip } from "@features/UI"
 import { ITask } from "@models/Store/Tasks/Task"
 import { colors } from "@styles/colors"
 import { typography } from "@styles/typography"
+import { DifficultyChip } from "./DifficultyChip"
 
 type Props = {
     task: ITask
@@ -23,7 +24,8 @@ export const Task = ({ task }: Props) => {
                 <Text style={{ ...typography.text, ...styles.title }}>{task.title}</Text>
             </View>
             <View style={styles.description}>
-                <Chip label="8 points" color="rgba(255,69,58, .2)" labelColor={colors.defaultSystemRedDark}/>
+                {/* <Chip label="8 points" color="rgba(255,69,58, .2)" labelColor={colors.defaultSystemRedDark}/> */}
+                <DifficultyChip difficulty={task.difficulty}/>
                 <View style={styles.list}>
                     <Image
                         style={styles.listIcon}
