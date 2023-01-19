@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { StyleSheet, Text, View, Image } from "react-native"
-import { Checkbox } from "@features/UI"
+import { Checkbox, Chip } from "@features/UI"
 import { ITask } from "@models/Store/Tasks/Task"
 import { colors } from "@styles/colors"
 import { typography } from "@styles/typography"
@@ -19,14 +19,11 @@ export const Task = ({ task }: Props) => {
     return (
         <View style={styles.container}>
             <View style={styles.checkboxTitle}>
-                <Checkbox checked={isChecked} onPress={onPress}/>
+                <Checkbox checked={isChecked} onPress={onPress} />
                 <Text style={{ ...typography.text, ...styles.title }}>{task.title}</Text>
             </View>
             <View style={styles.description}>
-                <View style={styles.badget}>
-                    {/* create DifficultyBadget */}
-                    <Text style={{ ...typography.small, ...styles.badgetText }}>{formatDifficulty(task.difficulty.quantityPoints)}</Text>
-                </View>
+                <Chip label="8 points" color="rgba(255,69,58, .2)" labelColor={colors.defaultSystemRedDark}/>
                 <View style={styles.list}>
                     <Image
                         style={styles.listIcon}
@@ -40,10 +37,6 @@ export const Task = ({ task }: Props) => {
         </View>
     )
 }
-
-function formatDifficulty(quantityPoints: number): string {
-    return quantityPoints > 1 ? `${quantityPoints} points` : `${quantityPoints} point`
-} 
 
 const styles = StyleSheet.create({
     container: {
