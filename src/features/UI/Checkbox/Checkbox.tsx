@@ -1,69 +1,76 @@
-import { useRef } from 'react'
-import { Animated, Pressable, StyleSheet, ViewStyle } from "react-native"
-import { Check } from "react-native-feather"
+import { useEffect, useRef, useState } from "react"
+import { Animated, ViewStyle, Pressable, StyleSheet } from "react-native"
+import { Feather } from "@expo/vector-icons"
 import { colors } from "../../../styles/colors"
 
 interface Props {
-    checked: boolean
+    checked: boolean,
     onPress: () => void
-    style?: ViewStyle
+    style?: ViewStyle,
 }
 
+export const Checkbox = ({ checked, onPress, ...props }: Props) => {
+    const scaleValue = useRef(new Animated.Value(1)).current
+    const opacityValue = useRef(new Animated.Value(0)).current
+    const [iconSize, setIconSize] = useState(20)
 
-export const Checkbox = ({ onPress, checked, ...props }: Props) => {
-    const animatedFadeIn = useRef(new Animated.Value(0)).current
-
-    const backgroundColorInterpolation = animatedFadeIn.interpolate({
+    const backgroundColorInterpolation = opacityValue.interpolate({
         inputRange: [0, 1],
         outputRange: ["rgba(255, 255, 255, 0)", colors.accessibleSystemBlueLight]
     })
-    const borderColorInterpolation = animatedFadeIn.interpolate({
+    const borderColorInterpolation = opacityValue.interpolate({
         inputRange: [0, 1],
         outputRange: [colors.defaultSystemGray02Light, colors.accessibleSystemBlueLight]
     })
 
     return (
-        <Pressable onPress={handleOnPress} hitSlop={20}>
-            <Animated.View style={[
-                styles.box,
-                props.style,
-                {
-                    backgroundColor: backgroundColorInterpolation,
-                    borderColor: borderColorInterpolation
+        <Pressable onPress={handleOnPress} hitSlop={10}>
+            <Animated.View
+                style={[
+                    styles.box,
+                    {
+                        backgroundColor: backgroundColorInterpolation,
+                        borderColor: borderColorInterpolation,
+                        transform: [{ scale: scaleValue }],
+                    }
+                ]}
+                onLayout={layoutEvent =>
+                    setIconSize(layoutEvent.nativeEvent.layout.width)
                 }
-            ]}>
-                <Animated.View style={[
-                    styles.check,
-                    { opacity: animatedFadeIn }
-                ]}>
-                    <Check width="100%" height="100%" color="#fff" />
+            >
+                <Animated.View style={{ opacity: opacityValue }}>
+                    <Feather
+                        name="check"
+                        color="#fff"
+                        size={iconSize - 4}
+                    />
                 </Animated.View>
             </Animated.View>
         </Pressable>
     )
 
-    function fadeIn() {
-        Animated.timing(animatedFadeIn, {
-            toValue: 1,
-            duration: 250,
-            useNativeDriver: false,
-        }).start()
-    }
-
-    function fadeOut() {
-        Animated.timing(animatedFadeIn, {
-            duration: 250,
-            useNativeDriver: false,
-            toValue: 0,
-        }).start()
-    }
-
     function handleOnPress() {
-        if (checked)
-            fadeOut()
-        else
-            fadeIn()
         onPress()
+        Animated.parallel([
+            Animated.timing(opacityValue, {
+                toValue: checked ? 1 : 0,
+                delay: 0,
+                duration: 150,
+                useNativeDriver: false
+            }),
+            Animated.sequence([
+                Animated.timing(scaleValue, {
+                    toValue: .9,
+                    duration: 150,
+                    useNativeDriver: false
+                }),
+                Animated.spring(scaleValue, {
+                    toValue: 1,
+                    friction: 10,
+                    useNativeDriver: false,
+                }),
+            ])
+        ]).start()
     }
 }
 
@@ -77,9 +84,4 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: 20,
     },
-    check: {
-        height: "100%",
-        position: "absolute",
-        width: "100%",
-    }
 })
