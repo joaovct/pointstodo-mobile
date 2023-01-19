@@ -1,8 +1,8 @@
 import { cast } from "mobx-state-tree"
 import { StyleSheet, Text, View, ImageBackground } from "react-native"
-import { ScreenBase } from "../../features/UI/ScreenBase"
-import { colors } from "../../styles/colors"
-import { typography } from "../../styles/typography"
+import { ScreenBase } from "@features/UI/ScreenBase"
+import { colors } from "@styles/colors"
+import { typography } from "@styles/typography"
 import { Task } from "./Task"
 
 export const Home = () => {

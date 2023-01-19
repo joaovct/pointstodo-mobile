@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { Animated, ViewStyle, Pressable, StyleSheet } from "react-native"
 import { Feather } from "@expo/vector-icons"
-import { colors } from "../../../styles/colors"
+import { colors } from '@styles/colors'
 
 interface Props {
     checked: boolean,

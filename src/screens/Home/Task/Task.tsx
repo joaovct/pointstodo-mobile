@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { StyleSheet, Text, View, Image } from "react-native"
-import { Checkbox } from "../../../features/UI"
-import { ITask } from "../../../models/Store/Tasks/Task"
-import { colors } from "../../../styles/colors"
-import { typography } from "../../../styles/typography"
+import { Checkbox } from "@features/UI"
+import { ITask } from "@models/Store/Tasks/Task"
+import { colors } from "@styles/colors"
+import { typography } from "@styles/typography"
 
 type Props = {
     task: ITask
