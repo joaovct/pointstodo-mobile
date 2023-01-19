@@ -11,7 +11,7 @@ interface Props {
 
 export const Checkbox = ({ checked, onPress, ...props }: Props) => {
     const scaleValue = useRef(new Animated.Value(1)).current
-    const opacityValue = useRef(new Animated.Value(0)).current
+    const opacityValue = useRef(new Animated.Value(checked ? 1 : 0)).current
     const [iconSize, setIconSize] = useState(20)
 
     const backgroundColorInterpolation = opacityValue.interpolate({
@@ -23,11 +23,35 @@ export const Checkbox = ({ checked, onPress, ...props }: Props) => {
         outputRange: [colors.defaultSystemGray02Light, colors.accessibleSystemBlueLight]
     })
 
+    const handleOnPress = () => {
+        Animated.timing(opacityValue, {
+            toValue: checked ? 0 : 1,
+            duration: 150,
+            useNativeDriver: false
+        }).start()
+        Animated.sequence([
+            Animated.timing(scaleValue, {
+                toValue: .9,
+                duration: 150,
+                useNativeDriver: false
+            }),
+            Animated.spring(scaleValue, {
+                toValue: 1,
+                friction: 10,
+                useNativeDriver: false,
+            }),
+        ]).start()
+
+        onPress()
+
+    }
+
     return (
         <Pressable onPress={handleOnPress} hitSlop={10}>
             <Animated.View
                 style={[
                     styles.box,
+                    props.style,
                     {
                         backgroundColor: backgroundColorInterpolation,
                         borderColor: borderColorInterpolation,
@@ -49,29 +73,44 @@ export const Checkbox = ({ checked, onPress, ...props }: Props) => {
         </Pressable>
     )
 
-    function handleOnPress() {
-        onPress()
-        Animated.parallel([
-            Animated.timing(opacityValue, {
-                toValue: checked ? 1 : 0,
-                delay: 0,
-                duration: 150,
-                useNativeDriver: false
-            }),
-            Animated.sequence([
-                Animated.timing(scaleValue, {
-                    toValue: .9,
-                    duration: 150,
-                    useNativeDriver: false
-                }),
-                Animated.spring(scaleValue, {
-                    toValue: 1,
-                    friction: 10,
-                    useNativeDriver: false,
-                }),
-            ])
-        ]).start()
+    function fadeIn() {
+        Animated.timing(opacityValue, {
+            toValue: 1,
+            duration: 150,
+            useNativeDriver: false
+        }).start()
     }
+
+    function fadeOut() {
+        Animated.timing(opacityValue, {
+            toValue: 0,
+            duration: 150,
+            useNativeDriver: false
+        }).start()
+    }
+
+    // function handleOnPress() {
+    //     Animated.parallel([
+    //         Animated.timing(opacityValue, {
+    //             toValue: checked ? 1 : 0,
+    //             duration: 150,
+    //             useNativeDriver: false,
+    //         }),
+    //         Animated.sequence([
+    //             Animated.timing(scaleValue, {
+    //                 toValue: .9,
+    //                 duration: 150,
+    //                 useNativeDriver: false
+    //             }),
+    //             Animated.spring(scaleValue, {
+    //                 toValue: 1,
+    //                 friction: 10,
+    //                 useNativeDriver: false,
+    //             }),
+    //         ])
+    //     ]).start()
+    //     onPress()
+    // }
 }
 
 const styles = StyleSheet.create({
