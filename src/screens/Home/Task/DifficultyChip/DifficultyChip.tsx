@@ -54,6 +54,10 @@ function getChipProps(quantity: number): Pick<ChipPros, "color" | "label" | "lab
             }
 
         default:
-            return {} as any
+            return { 
+                label,
+                color: "#fff",
+                labelColor: "#000"
+            }
     }
 }
