@@ -3,12 +3,11 @@ import { typography } from "@styles/typography"
 import { useCallback, useState } from "react"
 import { useRef } from "react"
 import { useEffect } from "react"
-import { Animated, View, Pressable, GestureResponderEvent, LayoutRectangle, UIManager } from "react-native"
+import { Animated, View, Pressable, GestureResponderEvent, LayoutRectangle, UIManager, PushNotificationIOS } from "react-native"
 import { Dimensions } from "react-native"
 import { TextInput } from "react-native"
 import { StyleSheet } from "react-native"
 import { useAnimation } from "./hooks/useAnimation"
-import { Keyboard } from 'react-native'
 import { useFocus } from "./hooks/useFocus"
 
 const AnimatedInputText = Animated.createAnimatedComponent(TextInput)
@@ -31,7 +30,7 @@ export const AddTask = () => {
         paddingRight: 8,
         width: Dimensions.get("window").width - 8 - 8
     }
-    const { values, ...animations } = useAnimation({ textInputRef, initialValue, finalValue })
+    const { values, position, panResponder, ...animations } = useAnimation({ textInputRef, initialValue, finalValue })
     const { editable, onBlur, onTouchEnd, onTouchStart } = useFocus({ textInputRef, ...animations })
 
     return (
@@ -41,10 +40,15 @@ export const AddTask = () => {
                 { bottom: values.bottom, }
             ]}
         >
-            <View
+            <Animated.View
                 onTouchStart={onTouchStart}
                 onTouchEnd={onTouchEnd}
-                style={{ elevation: 2 }}
+                style={{
+                    elevation: 2,
+                    backgroundColor: "none",
+                    ...position.getLayout()
+                }}
+                {...panResponder.panHandlers}
             >
                 <AnimatedInputText
                     editable={editable}
@@ -63,7 +67,7 @@ export const AddTask = () => {
                         }
                     ]}
                 />
-            </View>
+            </Animated.View>
         </Animated.View>
     )
 }

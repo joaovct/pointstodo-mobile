@@ -1,5 +1,5 @@
-import { MutableRefObject, useCallback, useRef, useState } from "react"
-import { Animated, Easing, TextInput } from "react-native"
+import { MutableRefObject, useCallback, useRef } from "react"
+import { Animated, Easing, TextInput, PanResponder, PanResponderInstance } from "react-native"
 
 type StyleProps = {
     borderRadius: number
@@ -20,6 +20,8 @@ export type ReturnObject = {
     values: {
         [K in keyof StyleProps]: Animated.Value
     }
+    position: Animated.ValueXY
+    panResponder: PanResponderInstance
     zoomInOut: (hasFocus: boolean) => void
     scaleDown: () => void
     scaleUp: () => void
@@ -32,8 +34,46 @@ export const useAnimation = ({ initialValue, finalValue }: Props): ReturnObject 
         scale: new Animated.Value(initialValue.scale),
         paddingLeft: new Animated.Value(initialValue.paddingLeft),
         paddingRight: new Animated.Value(initialValue.paddingRight),
-        width: new Animated.Value(initialValue.width)
+        width: new Animated.Value(initialValue.width),
     }).current
+    const position = useRef(new Animated.ValueXY()).current
+    const panResponder = useRef(
+        PanResponder.create({
+            onMoveShouldSetPanResponder: () => true,
+            onPanResponderMove: (_, gestureState) => {
+                const maxY = 4
+                const maxX = 4
+                let newX = gestureState.dx
+                let newY = gestureState.dy
+
+                if (Math.abs(newX) > maxX) {
+                    if (newX < 0)
+                        newX = maxX * -1
+                    else
+                        newX = maxX
+                }
+                if (Math.abs(newY) > maxY){
+                    if (newY < 0)
+                        newY = maxY * -1
+                    else
+                        newY = maxY
+                }
+
+                Animated.spring(position, {
+                    toValue: { x: newX, y: newY },
+                    friction: 4,
+                    useNativeDriver: false
+                }).start()
+            },
+            onPanResponderRelease: () => {
+                Animated.spring(position, {
+                    toValue: { x: 0, y: 0 },
+                    friction: 8,
+                    useNativeDriver: false
+                }).start()
+            }
+        }),
+    ).current
 
     const zoomInOut = useCallback((hasFocus: boolean) => {
         const configAnimation = {
@@ -66,16 +106,15 @@ export const useAnimation = ({ initialValue, finalValue }: Props): ReturnObject 
         ]).start()
     }, [initialValue, finalValue])
 
-    const scaleDown = useCallback(() => { 
+    const scaleDown = useCallback(() => {
         Animated.timing(values.scale, {
             toValue: finalValue.scale,
-            // duration: 150,
             easing: Easing.out(Easing.exp),
             useNativeDriver: false
         }).start()
     }, [])
-    
-    const scaleUp = useCallback(() => { 
+
+    const scaleUp = useCallback(() => {
         Animated.timing(values.scale, {
             toValue: initialValue.scale,
             // duration: 150,
@@ -84,5 +123,5 @@ export const useAnimation = ({ initialValue, finalValue }: Props): ReturnObject 
         }).start()
     }, [])
 
-    return { values, zoomInOut, scaleDown, scaleUp }
+    return { values, position, panResponder, zoomInOut, scaleDown, scaleUp }
 }
