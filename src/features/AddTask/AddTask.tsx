@@ -1,7 +1,7 @@
 import { Dropdown } from "@features/UI/Dropdown"
 import { colors } from "@styles/colors"
 import { typography } from "@styles/typography"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import { Animated } from "react-native"
 import { Dimensions } from "react-native"
 import { TextInput } from "react-native"
@@ -51,12 +51,10 @@ export const AddTask = () => {
                 />
                 <Animated.View
                     style={{
-                        transform: [{ 
-                            scaleY: values.scaleY,
-                        }]
+                        ...styles.dropdownContainer,
+                        transform: [{ scaleY: values.scaleY, }]
                     }}
                 >
-                    <Dropdown/>
                 </Animated.View>
             </Animated.View>
         </Animated.View >
@@ -118,5 +116,6 @@ const styles = StyleSheet.create({
     },
     input: {
         color: colors.acessibleSystemGrayLight,
-    }
+    },
+    dropdownContainer: {},
 })

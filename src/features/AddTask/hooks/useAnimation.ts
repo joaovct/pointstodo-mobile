@@ -83,33 +83,73 @@ export const useAnimation = ({ initialValue, finalValue }: Props): ReturnObject 
             useNativeDriver: false
         }
 
-        Animated.parallel([
-            Animated.timing(values.borderRadius, {
-                ...configAnimation,
-                toValue: !hasFocus ? initialValue.borderRadius : finalValue.borderRadius,
-            }),
-            Animated.timing(values.bottom, {
-                ...configAnimation,
-                toValue: !hasFocus ? initialValue.bottom : finalValue.bottom,
-            }),
-            Animated.timing(values.scaleY, {
-                ...configAnimation,
-                delay: hasFocus ? 500 : 0,
-                toValue: !hasFocus ? initialValue.scaleY : finalValue.scaleY
-            }),
-            Animated.timing(values.paddingLeft, {
-                ...configAnimation,
-                toValue: !hasFocus ? initialValue.paddingLeft : finalValue.paddingLeft
-            }),
-            Animated.timing(values.paddingRight, {
-                ...configAnimation,
-                toValue: !hasFocus ? initialValue.paddingRight : finalValue.paddingRight
-            }),
-            Animated.timing(values.width, {
-                ...configAnimation,
-                toValue: !hasFocus ? initialValue.width : finalValue.width,
-            })
-        ]).start()
+        const animatedInitialScaleY = Animated.timing(values.scaleY, {
+            ...configAnimation,
+            duration: 250,
+            toValue: initialValue.scaleY
+        })
+
+        const animatedFinalScaleY = Animated.timing(values.scaleY, {
+            ...configAnimation,
+            delay: 500,
+            toValue: finalValue.scaleY
+        })
+
+        Animated.sequence([
+            ...(!hasFocus ?  [animatedInitialScaleY] : []),
+            Animated.parallel([
+                Animated.timing(values.borderRadius, {
+                    ...configAnimation,
+                    toValue: !hasFocus ? initialValue.borderRadius : finalValue.borderRadius,
+                }),
+                Animated.timing(values.bottom, {
+                    ...configAnimation,
+                    toValue: !hasFocus ? initialValue.bottom : finalValue.bottom,
+                }),
+                ...(hasFocus ? [animatedFinalScaleY] : []),
+                Animated.timing(values.paddingLeft, {
+                    ...configAnimation,
+                    toValue: !hasFocus ? initialValue.paddingLeft : finalValue.paddingLeft
+                }),
+                Animated.timing(values.paddingRight, {
+                    ...configAnimation,
+                    toValue: !hasFocus ? initialValue.paddingRight : finalValue.paddingRight
+                }),
+                Animated.timing(values.width, {
+                    ...configAnimation,
+                    toValue: !hasFocus ? initialValue.width : finalValue.width,
+                })
+            ])
+         ]).start()
+
+        // Animated.parallel([
+        //     Animated.timing(values.borderRadius, {
+        //         ...configAnimation,
+        //         toValue: !hasFocus ? initialValue.borderRadius : finalValue.borderRadius,
+        //     }),
+        //     Animated.timing(values.bottom, {
+        //         ...configAnimation,
+        //         toValue: !hasFocus ? initialValue.bottom : finalValue.bottom,
+        //     }),
+        //     Animated.timing(values.scaleY, {
+        //         ...configAnimation,
+        //         delay: hasFocus ? 500 : 0,
+        //         duration: hasFocus ? configAnimation.duration : 100,
+        //         toValue: !hasFocus ? initialValue.scaleY : finalValue.scaleY
+        //     }),
+        //     Animated.timing(values.paddingLeft, {
+        //         ...configAnimation,
+        //         toValue: !hasFocus ? initialValue.paddingLeft : finalValue.paddingLeft
+        //     }),
+        //     Animated.timing(values.paddingRight, {
+        //         ...configAnimation,
+        //         toValue: !hasFocus ? initialValue.paddingRight : finalValue.paddingRight
+        //     }),
+        //     Animated.timing(values.width, {
+        //         ...configAnimation,
+        //         toValue: !hasFocus ? initialValue.width : finalValue.width,
+        //     })
+        // ]).start()
     }, [initialValue, finalValue])
 
     const scaleDown = useCallback(() => {
