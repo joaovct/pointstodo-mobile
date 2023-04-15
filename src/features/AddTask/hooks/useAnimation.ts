@@ -1,17 +1,17 @@
-import { MutableRefObject, useCallback, useRef } from "react"
-import { Animated, Easing, TextInput, PanResponder, PanResponderInstance } from "react-native"
+import { useCallback, useRef } from "react"
+import { Animated, Easing, PanResponder, PanResponderInstance } from "react-native"
 
 type StyleProps = {
     borderRadius: number
     bottom: number
     scale: number
+    scaleY: number
     paddingLeft: number
     paddingRight: number
     width: number
 }
 
 type Props = {
-    textInputRef: MutableRefObject<TextInput | undefined>
     initialValue: StyleProps
     finalValue: StyleProps
 }
@@ -32,6 +32,7 @@ export const useAnimation = ({ initialValue, finalValue }: Props): ReturnObject 
         borderRadius: new Animated.Value(initialValue.borderRadius),
         bottom: new Animated.Value(initialValue.bottom),
         scale: new Animated.Value(initialValue.scale),
+        scaleY: new Animated.Value(initialValue.scaleY),
         paddingLeft: new Animated.Value(initialValue.paddingLeft),
         paddingRight: new Animated.Value(initialValue.paddingRight),
         width: new Animated.Value(initialValue.width),
@@ -52,7 +53,7 @@ export const useAnimation = ({ initialValue, finalValue }: Props): ReturnObject 
                     else
                         newX = maxX
                 }
-                if (Math.abs(newY) > maxY){
+                if (Math.abs(newY) > maxY) {
                     if (newY < 0)
                         newY = maxY * -1
                     else
@@ -91,6 +92,11 @@ export const useAnimation = ({ initialValue, finalValue }: Props): ReturnObject 
                 ...configAnimation,
                 toValue: !hasFocus ? initialValue.bottom : finalValue.bottom,
             }),
+            Animated.timing(values.scaleY, {
+                ...configAnimation,
+                delay: hasFocus ? 500 : 0,
+                toValue: !hasFocus ? initialValue.scaleY : finalValue.scaleY
+            }),
             Animated.timing(values.paddingLeft, {
                 ...configAnimation,
                 toValue: !hasFocus ? initialValue.paddingLeft : finalValue.paddingLeft
@@ -117,7 +123,6 @@ export const useAnimation = ({ initialValue, finalValue }: Props): ReturnObject 
     const scaleUp = useCallback(() => {
         Animated.timing(values.scale, {
             toValue: initialValue.scale,
-            // duration: 150,
             easing: Easing.out(Easing.exp),
             useNativeDriver: false
         }).start()
